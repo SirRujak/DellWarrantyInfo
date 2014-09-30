@@ -9,6 +9,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,6 +18,7 @@ import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * Created by Rujak on 9/29/2014.
@@ -37,10 +39,13 @@ public class WarrantyInfoFetcher {
     private String tempTotal;
 
     private JSONObject jsonData;
+    private JSONArray warrantiesList;
+    private int numberOfWarranties;
 
     private String inputString;
     private String serviceTag;
     private String endDate;
+    private String unitModel;
 
     public void getDellJSON(String scanContent) {
         //do the stuff here to retrieve the JSON info from dell
@@ -80,6 +85,19 @@ public class WarrantyInfoFetcher {
     public void convertToJSONObject() {
         try {
             this.jsonData = new JSONObject(this.inputString);
+            this.unitModel = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
+                    .getJSONObject("GetAssetWarrantyResult").getJSONObject("Response")
+                    .getJSONObject("DellAsset").getString("MachineDescription");
+            this.warrantiesList = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
+                    .getJSONObject("GetAssetWarrantyResult").getJSONObject("Response")
+                    .getJSONObject("DellAsset").getJSONObject("Warranties").getJSONArray("Warranty");
+            this.numberOfWarranties = this.warrantiesList.length();
+
+            for (int i = 0; i < this.numberOfWarranties; i++) {
+                
+            }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -102,7 +120,7 @@ public class WarrantyInfoFetcher {
         this.tempTotal = "";
         this.tempLine = "";
         this.inputString = "";
-
+        this.warrantiesList = new ArrayList();
     }
 
     public String getInputString() {
