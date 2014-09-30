@@ -103,8 +103,9 @@ public class MyActivity extends Activity implements OnClickListener {
 
         @Override
         protected void onPostExecute(String s) {
-            responseTxt.setText( "JSON: " + "blah" );
+            responseTxt.setText( "JSON: " + fetcher.getInputString() );
             Toast toast = Toast.makeText( getApplicationContext(), fetcher.getInputString(), Toast.LENGTH_SHORT );
+            toast.show();
         }
 /*@Override
         protected void onPostExecute(Result result) {

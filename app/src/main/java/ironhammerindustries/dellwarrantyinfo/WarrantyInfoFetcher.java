@@ -5,9 +5,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOError;
@@ -33,6 +36,8 @@ public class WarrantyInfoFetcher {
     private String tempLine;
     private String tempTotal;
 
+    private JSONObject jsonData;
+
     private String inputString;
     private String serviceTag;
     private String endDate;
@@ -40,32 +45,55 @@ public class WarrantyInfoFetcher {
     public void getDellJSON(String scanContent) {
         //do the stuff here to retrieve the JSON info from dell
         this.apiUrl = baseUrl + scanContent + apiKeyUrl;
-        inputStream = null;
+        this.inputStream = null;
         try {
+            this.httpClient = new DefaultHttpClient();
             this.httpResponse = this.httpClient.execute(new HttpGet(this.apiUrl));
             this.inputStream = this.httpResponse.getEntity().getContent();
-            if (inputStream != null) {
+            if (this.inputStream != null) {
                 this.convertInputStreamToString();
-
+                this.convertToJSONObject();
+                Log.d("Response", tempTotal);
             }
             else {
                 this.tempTotal = "THERE WAS AN ERROR";
             }
-            Log.d("Response", tempTotal);
+
 
         } catch (Exception e) {
             Log.d("Input Stream", e.getLocalizedMessage());
         }
+        /*try {
+            HttpClient httpClient1 = new DefaultHttpClient();
+            HttpResponse httpResponse1 = httpClient1.execute(new HttpGet(this.apiUrl));
+            inputStream = httpResponse1.getEntity().getContent();
+            if (inputStream != null) {
+                this.convertInputStreamToString();
+            }
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
+
+    public void convertToJSONObject() {
+        try {
+            this.jsonData = new JSONObject(this.inputString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void convertInputStreamToString() throws IOException {
-        this.bufferedReader = new BufferedReader( new InputStreamReader(this.inputStream) );
+        BufferedReader bufferedReader1 = new BufferedReader( new InputStreamReader(this.inputStream) );
         this.tempLine = "";
-        while ( (this.tempLine = this.bufferedReader.readLine()) != null) {
+        while ( (this.tempLine = bufferedReader1.readLine()) != null) {
             this.tempTotal += this.tempLine;
         }
-        this.inputString = this.tempTotal.substring(0,10);
         this.inputStream.close();
+        this.inputString = this.tempTotal;
+
     }
 
     public void initializeFetcher() {
