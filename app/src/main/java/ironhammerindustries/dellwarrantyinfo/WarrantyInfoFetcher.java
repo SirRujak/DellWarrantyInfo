@@ -2,10 +2,8 @@ package ironhammerindustries.dellwarrantyinfo;
 
 
 import android.util.Log;
-import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -14,11 +12,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 /**
  * Created by Rujak on 9/29/2014.
@@ -26,7 +22,6 @@ import java.util.ArrayList;
 public class WarrantyInfoFetcher {
     private HttpClient httpClient;
     private HttpResponse httpResponse;
-    private BufferedReader bufferedReader;
 
     private String apiUrl;
     private String baseUrl =
@@ -68,18 +63,6 @@ public class WarrantyInfoFetcher {
         } catch (Exception e) {
             Log.d("Input Stream", e.getLocalizedMessage());
         }
-        /*try {
-            HttpClient httpClient1 = new DefaultHttpClient();
-            HttpResponse httpResponse1 = httpClient1.execute(new HttpGet(this.apiUrl));
-            inputStream = httpResponse1.getEntity().getContent();
-            if (inputStream != null) {
-                this.convertInputStreamToString();
-            }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     public void convertToJSONObject() {
@@ -94,7 +77,7 @@ public class WarrantyInfoFetcher {
             this.numberOfWarranties = this.warrantiesList.length();
 
             for (int i = 0; i < this.numberOfWarranties; i++) {
-                
+
             }
 
 
@@ -120,7 +103,7 @@ public class WarrantyInfoFetcher {
         this.tempTotal = "";
         this.tempLine = "";
         this.inputString = "";
-        this.warrantiesList = new ArrayList();
+        this.warrantiesList = new JSONArray();
     }
 
     public String getInputString() {

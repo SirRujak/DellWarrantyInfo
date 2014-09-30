@@ -76,7 +76,6 @@ public class MyActivity extends Activity implements OnClickListener {
             String scanFormat = scanningResult.getFormatName();
             formatTxt.setText( "Code Format: " + scanFormat);
             contentTxt.setText( "Service Tag: " + scanContent);
-            //fetcher.getDellJSON(scanContent);
             //new HttpAsyncTask().execute(scanContent);
             new HttpAsyncTask().execute("167L22S");
 
@@ -88,16 +87,12 @@ public class MyActivity extends Activity implements OnClickListener {
         }
     }
 
-    public void updateData(String responseString) {
 
-        //responseTxt.setText( "JSON: " + fetcher.getInputString() );
-    }
 
     public class HttpAsyncTask extends AsyncTask<String, Void, String>{
         @Override
         protected String doInBackground(String... strings) {
             fetcher.getDellJSON(strings[0]);
-            //updateData(fetcher.getInputString());
             return fetcher.getInputString();
         }
 
@@ -107,15 +102,6 @@ public class MyActivity extends Activity implements OnClickListener {
             Toast toast = Toast.makeText( getApplicationContext(), fetcher.getInputString(), Toast.LENGTH_SHORT );
             toast.show();
         }
-/*@Override
-        protected void onPostExecute(Result result) {
-            updateData(fetcher.getInputString());
-        }
-        @Override
-        protected void onPostExecute() {
-            //responseTxt.setText( "JSON: " + fetcher.getInputString());
-            updateData(fetcher.getInputString());
-        }*/
     }
 
 
