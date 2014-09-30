@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 /**
  * Created by Rujak on 9/29/2014.
@@ -40,7 +41,14 @@ public class WarrantyInfoFetcher {
     private String inputString;
     private String serviceTag;
     private String endDate;
+    private String entitlementType;
+    private String startDate;
     private String unitModel;
+
+    private ArrayList<String> endDates;
+    private ArrayList<String> startDates;
+    private ArrayList<String> entitlementTypes;
+    private ArrayList<String> serviceLevelDescription;
 
     public void getDellJSON(String scanContent) {
         //do the stuff here to retrieve the JSON info from dell
@@ -53,7 +61,6 @@ public class WarrantyInfoFetcher {
             if (this.inputStream != null) {
                 this.convertInputStreamToString();
                 this.convertToJSONObject();
-                Log.d("Response", tempTotal);
             }
             else {
                 this.tempTotal = "THERE WAS AN ERROR";
@@ -73,11 +80,19 @@ public class WarrantyInfoFetcher {
                     .getJSONObject("DellAsset").getString("MachineDescription");
             this.warrantiesList = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
                     .getJSONObject("GetAssetWarrantyResult").getJSONObject("Response")
-                    .getJSONObject("DellAsset").getJSONObject("Warranties").getJSONArray("Warranty");
+                    .getJSONObject("DellAsset").getJSONObject("Warranties")
+                    .getJSONArray("Warranty");
             this.numberOfWarranties = this.warrantiesList.length();
 
             for (int i = 0; i < this.numberOfWarranties; i++) {
-
+                this.endDates.add(this.warrantiesList.getJSONObject(i)
+                        .getString("EndDate"));
+                this.startDates.add(this.warrantiesList.getJSONObject(i)
+                        .getString("StartDate"));
+                this.entitlementTypes.add(this.warrantiesList.getJSONObject(i)
+                        .getString("EntitlementType"));
+                this.serviceLevelDescription.add(this.warrantiesList.getJSONObject(i)
+                        .getString("ServiceLevelDescription"));
             }
 
 
