@@ -2,22 +2,28 @@ package ironhammerindustries.dellwarrantyinfo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import javax.xml.transform.Result;
+
 
 public class MyActivity extends Activity implements OnClickListener {
 
     private TextView formatTxt, contentTxt;
+    private TextView responseTxt;
+    private WarrantyInfoFetcher fetcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,9 @@ public class MyActivity extends Activity implements OnClickListener {
         Button scanBtn = (Button) findViewById(R.id.scan_button);
         formatTxt = ( TextView )findViewById(R.id.scan_format);
         contentTxt = ( TextView )findViewById(R.id.scan_content);
+        responseTxt = ( TextView )findViewById(R.id.scan_response);
+        fetcher = new WarrantyInfoFetcher();
+        fetcher.initializeFetcher();
         scanBtn.setOnClickListener(this);
     }
 
@@ -67,7 +76,11 @@ public class MyActivity extends Activity implements OnClickListener {
             String scanFormat = scanningResult.getFormatName();
             formatTxt.setText( "Code Format: " + scanFormat);
             contentTxt.setText( "Service Tag: " + scanContent);
-            getDellJSON(scanContent);
+            //fetcher.getDellJSON(scanContent);
+            //new HttpAsyncTask().execute(scanContent);
+            new HttpAsyncTask().execute("167L22S");
+
+
         }
         else {
             Toast toast = Toast.makeText( getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT );
@@ -75,7 +88,34 @@ public class MyActivity extends Activity implements OnClickListener {
         }
     }
 
-    public void getDellJSON(String scanContent) {
-        //do the stuff here to retrieve the JSON info from dell
+    public void updateData(String responseString) {
+
+        //responseTxt.setText( "JSON: " + fetcher.getInputString() );
     }
+
+    public class HttpAsyncTask extends AsyncTask<String, Void, String>{
+        @Override
+        protected String doInBackground(String... strings) {
+            fetcher.getDellJSON(strings[0]);
+            //updateData(fetcher.getInputString());
+            return fetcher.getInputString();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            responseTxt.setText( "JSON: " + "blah" );
+            Toast toast = Toast.makeText( getApplicationContext(), fetcher.getInputString(), Toast.LENGTH_SHORT );
+        }
+/*@Override
+        protected void onPostExecute(Result result) {
+            updateData(fetcher.getInputString());
+        }
+        @Override
+        protected void onPostExecute() {
+            //responseTxt.setText( "JSON: " + fetcher.getInputString());
+            updateData(fetcher.getInputString());
+        }*/
+    }
+
+
 }
