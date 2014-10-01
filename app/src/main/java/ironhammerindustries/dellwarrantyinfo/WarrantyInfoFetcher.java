@@ -39,10 +39,6 @@ public class WarrantyInfoFetcher {
     private int numberOfWarranties;
 
     private String inputString;
-    private String serviceTag;
-    private String endDate;
-    private String entitlementType;
-    private String startDate;
     private String unitModel;
 
     private ArrayList<String> endDates;

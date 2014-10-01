@@ -45,6 +45,11 @@
         android:layout_below="@id/scan_content"
         android:textIsSelectable="true"/>
 
+    <ListView
+        android:id = "@+id/list_view"
+        android:layout_below="@id/scan_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></ListView>
 
 
 </RelativeLayout>
