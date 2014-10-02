@@ -17,12 +17,12 @@ public class WarrantyInfoContainer {
 
     private boolean isActive;
 
-    public WarrantyInfoContainer(String endDate, String startDate, String entitlementType,
-                                 String serviceLevelDescription) {
-        this.endDate = endDate;
-        this.startDate = startDate;
-        this.entitlementType = entitlementType;
-        this.serviceLevelDescription = serviceLevelDescription;
+    public WarrantyInfoContainer(String endDate1, String startDate1, String entitlementType1,
+                                 String serviceLevelDescription1) {
+        this.endDate = endDate1;
+        this.startDate = startDate1;
+        this.entitlementType = entitlementType1;
+        this.serviceLevelDescription = serviceLevelDescription1;
         this.checkIfWarrantyIsActive();
     }
 

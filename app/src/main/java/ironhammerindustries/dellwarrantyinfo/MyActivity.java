@@ -36,7 +36,7 @@ public class MyActivity extends Activity implements OnClickListener {
         Button scanBtn = (Button) findViewById(R.id.scan_button);
         formatTxt = ( TextView )findViewById(R.id.scan_format);
         contentTxt = ( TextView )findViewById(R.id.scan_content);
-        responseTxt = ( TextView )findViewById(R.id.scan_response);
+        //responseTxt = ( TextView )findViewById(R.id.scan_response);
         fetcher = new WarrantyInfoFetcher();
         fetcher.initializeFetcher();
         scanBtn.setOnClickListener(this);
@@ -81,7 +81,8 @@ public class MyActivity extends Activity implements OnClickListener {
             formatTxt.setText( "Code Format: " + scanFormat);
             contentTxt.setText( "Service Tag: " + scanContent);
             //new HttpAsyncTask().execute(scanContent);
-            new HttpAsyncTask(this).execute("167L22S");
+            ListView updateListView = (ListView) findViewById(R.id.list_view);
+            new HttpAsyncTask(this, updateListView).execute("167L22S");
 
 
         }
@@ -100,8 +101,10 @@ public class MyActivity extends Activity implements OnClickListener {
 
     public class HttpAsyncTask extends AsyncTask<String, Void, ArrayList<WarrantyInfoContainer>>{
         private Context context;
-        public HttpAsyncTask(Context context) {
+        private ListView listView;
+        public HttpAsyncTask(Context context, ListView listView) {
             this.context = context;
+            this.listView = listView;
         }
         @Override
         protected ArrayList<WarrantyInfoContainer> doInBackground(String... strings) {
@@ -113,11 +116,10 @@ public class MyActivity extends Activity implements OnClickListener {
 
         @Override
         protected void onPostExecute(ArrayList<WarrantyInfoContainer> s) {
-            responseTxt.setText( "JSON: " + fetcher.getErrorMessage() );
+            //responseTxt.setText( "JSON: " + fetcher.getErrorMessage() );
             DellWarrantyAdapter dellWarrantyAdapter
-                    = new DellWarrantyAdapter(context, fetcher.getWarrantyList());
-            ListView updateListView = (ListView) findViewById(R.id.list_view);
-            updateListView.setAdapter(dellWarrantyAdapter);
+                    = new DellWarrantyAdapter(context, s);
+            this.listView.setAdapter(dellWarrantyAdapter);
             //updateElements();
             /*Toast toast = Toast.makeText( getApplicationContext(), fetcher.getInputString(), Toast.LENGTH_SHORT );
             toast.show();*/
