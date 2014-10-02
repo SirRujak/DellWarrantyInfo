@@ -40,11 +40,14 @@ public class WarrantyInfoFetcher {
 
     private String inputString;
     private String unitModel;
+    private String errorMessage;
 
-    private ArrayList<String> endDates;
+    /*private ArrayList<String> endDates;
     private ArrayList<String> startDates;
     private ArrayList<String> entitlementTypes;
-    private ArrayList<String> serviceLevelDescription;
+    private ArrayList<String> serviceLevelDescription;*/
+
+    private ArrayList<WarrantyInfoContainer> warrantyInfoContainers;
 
     public void getDellJSON(String scanContent) {
         //do the stuff here to retrieve the JSON info from dell
@@ -64,7 +67,8 @@ public class WarrantyInfoFetcher {
 
 
         } catch (Exception e) {
-            Log.d("Input Stream", e.getLocalizedMessage());
+            //Log.d("Input Stream", e.getLocalizedMessage());
+            this.errorMessage = e.getLocalizedMessage();
         }
     }
 
@@ -81,6 +85,13 @@ public class WarrantyInfoFetcher {
             this.numberOfWarranties = this.warrantiesList.length();
 
             for (int i = 0; i < this.numberOfWarranties; i++) {
+                this.warrantyInfoContainers.add(new WarrantyInfoContainer(
+                        this.warrantiesList.getJSONObject(i).getString("EndDate"),
+                        this.warrantiesList.getJSONObject(i).getString("StartDate"),
+                        this.warrantiesList.getJSONObject(i).getString("EntitlementType"),
+                        this.warrantiesList.getJSONObject(i).getString("ServiceLevelDescription")
+                ));
+                /*
                 this.endDates.add(this.warrantiesList.getJSONObject(i)
                         .getString("EndDate"));
                 this.startDates.add(this.warrantiesList.getJSONObject(i)
@@ -88,7 +99,7 @@ public class WarrantyInfoFetcher {
                 this.entitlementTypes.add(this.warrantiesList.getJSONObject(i)
                         .getString("EntitlementType"));
                 this.serviceLevelDescription.add(this.warrantiesList.getJSONObject(i)
-                        .getString("ServiceLevelDescription"));
+                        .getString("ServiceLevelDescription"));*/
             }
 
 
@@ -117,10 +128,21 @@ public class WarrantyInfoFetcher {
         this.warrantiesList = new JSONArray();
     }
 
+    public ArrayList<WarrantyInfoContainer> getWarrantyList() {
+        return this.warrantyInfoContainers;
+    }
+
+    public String getErrorMessage() {
+        return this.errorMessage;
+    }
     public String getInputString() {
         Log.d("Response", this.tempTotal);
         return this.inputString;
 
+    }
+
+    public ArrayList<WarrantyInfoContainer> getWarrantyInfoContainers() {
+        return this.warrantyInfoContainers;
     }
 
 }

@@ -10,11 +10,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
+import java.util.ArrayList;
 
 import javax.xml.transform.Result;
 
@@ -87,21 +90,31 @@ public class MyActivity extends Activity implements OnClickListener {
         }
     }
 
+    public void updateElements() {
+        DellWarrantyAdapter dellWarrantyAdapter
+                = new DellWarrantyAdapter(this, fetcher.getWarrantyList());
+        ListView updateListView = (ListView) findViewById(R.id.list_view);
+        updateListView.setAdapter(dellWarrantyAdapter);
+    }
 
-
-    public class HttpAsyncTask extends AsyncTask<String, Void, String>{
+    public class HttpAsyncTask extends AsyncTask<String, Void, ArrayList<WarrantyInfoContainer>>{
         @Override
-        protected String doInBackground(String... strings) {
+        protected ArrayList<WarrantyInfoContainer> doInBackground(String... strings) {
             fetcher.getDellJSON(strings[0]);
-            return fetcher.getInputString();
+            updateElements();
+            //return fetcher.getInputString();
+            return fetcher.getWarrantyInfoContainers();
         }
 
+        /*
         @Override
         protected void onPostExecute(String s) {
-            responseTxt.setText( "JSON: " + fetcher.getInputString() );
-            Toast toast = Toast.makeText( getApplicationContext(), fetcher.getInputString(), Toast.LENGTH_SHORT );
+            responseTxt.setText( "JSON: " + fetcher.getErrorMessage() );
+            //updateElements();
+            /*Toast toast = Toast.makeText( getApplicationContext(), fetcher.getInputString(), Toast.LENGTH_SHORT );
             toast.show();
-        }
+
+        }*/
     }
 
 

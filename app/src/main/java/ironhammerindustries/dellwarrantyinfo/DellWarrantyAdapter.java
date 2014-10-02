@@ -1,7 +1,6 @@
 package ironhammerindustries.dellwarrantyinfo;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,9 +47,9 @@ public class DellWarrantyAdapter extends ArrayAdapter<WarrantyInfoContainer> {
         valueView.setText(dellWarrantyList.get(position).getEndDate());
 
         if (dellWarrantyList.get(position).getIsActive()) {
-            iconView.setImageResource(R.drawable.GreenCheckMark4848);
+            iconView.setImageResource(R.drawable.green_check_mark4848);
         } else {
-            iconView.setImageResource(R.drawable.RedX4848);
+            iconView.setImageResource(R.drawable.red_x4848);
         }
 
         // 5. return rowView
