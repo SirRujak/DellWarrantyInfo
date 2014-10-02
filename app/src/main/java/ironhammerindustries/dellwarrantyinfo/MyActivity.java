@@ -1,6 +1,7 @@
 package ironhammerindustries.dellwarrantyinfo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -80,7 +81,7 @@ public class MyActivity extends Activity implements OnClickListener {
             formatTxt.setText( "Code Format: " + scanFormat);
             contentTxt.setText( "Service Tag: " + scanContent);
             //new HttpAsyncTask().execute(scanContent);
-            new HttpAsyncTask().execute("167L22S");
+            new HttpAsyncTask(this).execute("167L22S");
 
 
         }
@@ -98,23 +99,30 @@ public class MyActivity extends Activity implements OnClickListener {
     }
 
     public class HttpAsyncTask extends AsyncTask<String, Void, ArrayList<WarrantyInfoContainer>>{
+        private Context context;
+        public HttpAsyncTask(Context context) {
+            this.context = context;
+        }
         @Override
         protected ArrayList<WarrantyInfoContainer> doInBackground(String... strings) {
             fetcher.getDellJSON(strings[0]);
-            updateElements();
             //return fetcher.getInputString();
             return fetcher.getWarrantyInfoContainers();
         }
 
-        /*
+
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(ArrayList<WarrantyInfoContainer> s) {
             responseTxt.setText( "JSON: " + fetcher.getErrorMessage() );
+            DellWarrantyAdapter dellWarrantyAdapter
+                    = new DellWarrantyAdapter(context, fetcher.getWarrantyList());
+            ListView updateListView = (ListView) findViewById(R.id.list_view);
+            updateListView.setAdapter(dellWarrantyAdapter);
             //updateElements();
             /*Toast toast = Toast.makeText( getApplicationContext(), fetcher.getInputString(), Toast.LENGTH_SHORT );
-            toast.show();
+            toast.show();*/
 
-        }*/
+        }
     }
 
 
