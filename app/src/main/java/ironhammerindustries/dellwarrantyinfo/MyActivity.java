@@ -86,9 +86,10 @@ public class MyActivity extends Activity implements OnClickListener {
                 String scanFormat = scanningResult.getFormatName();
                 //formatTxt.setText( "Code Format: " + scanFormat);
                 contentTxt.setText("Service Tag: " + scanContent);
-                //new HttpAsyncTask().execute(scanContent);
                 ListView updateListView = (ListView) findViewById(R.id.list_view);
-                new HttpAsyncTask(this, updateListView).execute("167L22S");
+                new HttpAsyncTask(this, updateListView).execute(scanContent);
+
+                //new HttpAsyncTask(this, updateListView).execute("167L22S"); //for testing purposes
 
 
             } else {
