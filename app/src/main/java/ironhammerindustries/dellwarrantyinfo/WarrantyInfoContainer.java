@@ -24,6 +24,8 @@ public class WarrantyInfoContainer {
         this.entitlementType = entitlementType1;
         this.serviceLevelDescription = serviceLevelDescription1;
         this.checkIfWarrantyIsActive();
+        String[] tempDate = endDate1.split("T");
+        this.endDate = tempDate[0] + " " + tempDate[1];
     }
 
     private void checkIfWarrantyIsActive() {
