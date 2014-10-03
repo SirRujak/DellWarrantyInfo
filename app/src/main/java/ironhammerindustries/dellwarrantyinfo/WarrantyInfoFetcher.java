@@ -84,6 +84,8 @@ public class WarrantyInfoFetcher {
                     .getJSONArray("Warranty");
             this.numberOfWarranties = this.warrantiesList.length();
 
+            this.warrantyInfoContainers = new ArrayList<WarrantyInfoContainer>();
+
             for (int i = 0; i < this.numberOfWarranties; i++) {
                 this.warrantyInfoContainers.add(new WarrantyInfoContainer(
                         this.warrantiesList.getJSONObject(i).getString("EndDate"),

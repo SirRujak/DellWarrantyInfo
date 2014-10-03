@@ -37,6 +37,7 @@
         android:layout_below="@id/scan_format"
         android:textIsSelectable="true"/>
 
+    <!--
     <TextView
         android:id = "@+id/scan_response"
         android:layout_width="wrap_content"
@@ -44,12 +45,54 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/scan_content"
         android:textIsSelectable="true"/>
+        -->
 
     <ListView
         android:id = "@+id/list_view"
         android:layout_below="@id/scan_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"></ListView>
+
+    <ImageView
+        android:id = "@+id/key_green_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/key_red_image"
+        android:padding="3dp"
+        android:src="@drawable/green_check_mark4848"/>
+
+    <TextView
+        android:id = "@+id/key_green_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/key_green_image"
+        android:layout_alignBottom="@id/key_green_image"
+        android:text="Active Warranty"/>
+
+    <ImageView
+        android:id = "@+id/key_red_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/donate_button"
+        android:padding="3dp"
+        android:src="@drawable/red_x4848"/>
+
+    <TextView
+        android:id = "@+id/key_red_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inactive Warranty"
+        android:layout_alignBottom="@+id/key_red_image"
+        android:layout_alignLeft="@+id/key_green_text"
+        android:layout_alignStart="@+id/key_green_text"/>
+
+    <Button
+        android:id = "@+id/donate_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Donate!"/>
 
 
 </RelativeLayout>
