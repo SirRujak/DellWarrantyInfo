@@ -26,7 +26,6 @@ import javax.xml.transform.Result;
 public class MyActivity extends Activity implements OnClickListener {
 
     private TextView formatTxt, contentTxt, greenTxt, redTxt;
-    private TextView responseTxt;
     private WarrantyInfoFetcher fetcher;
     private boolean isFetching;
 
@@ -39,7 +38,6 @@ public class MyActivity extends Activity implements OnClickListener {
         contentTxt = ( TextView )findViewById(R.id.scan_content);
         greenTxt = ( TextView )findViewById(R.id.key_green_text);
         redTxt = (TextView )findViewById(R.id.key_red_text);
-        //responseTxt = ( TextView )findViewById(R.id.scan_response);
         fetcher = new WarrantyInfoFetcher();
         fetcher.initializeFetcher();
         isFetching = false;
@@ -79,21 +77,26 @@ public class MyActivity extends Activity implements OnClickListener {
         //retrieve scan result
         if (isFetching == false) {
             isFetching = true;
-            IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+            IntentResult scanningResult = IntentIntegrator.parseActivityResult(
+                    requestCode,
+                    resultCode,
+                    intent);
             if (scanningResult != null) {
                 //we have a result
                 String scanContent = scanningResult.getContents();
                 String scanFormat = scanningResult.getFormatName();
-                //formatTxt.setText( "Code Format: " + scanFormat);
                 contentTxt.setText("Service Tag: " + scanContent);
                 ListView updateListView = (ListView) findViewById(R.id.list_view);
-                new HttpAsyncTask(this, updateListView).execute(scanContent);
-
+                if (scanContent.length() == 7) { //simple check to see if it is actually a dell tag
+                    new HttpAsyncTask(this, updateListView).execute(scanContent);
+                }
                 //new HttpAsyncTask(this, updateListView).execute("167L22S"); //for testing purposes
 
 
             } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(
+                        getApplicationContext(),
+                        "No scan data received!", Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
@@ -116,24 +119,18 @@ public class MyActivity extends Activity implements OnClickListener {
         @Override
         protected ArrayList<WarrantyInfoContainer> doInBackground(String... strings) {
             fetcher.getDellJSON(strings[0]);
-            //return fetcher.getInputString();
             return fetcher.getWarrantyInfoContainers();
         }
 
 
         @Override
         protected void onPostExecute(ArrayList<WarrantyInfoContainer> s) {
-            //responseTxt.setText( "JSON: " + fetcher.getErrorMessage() );
             DellWarrantyAdapter dellWarrantyAdapter
                     = new DellWarrantyAdapter(context, s);
             this.listView.setAdapter(dellWarrantyAdapter);
             greenTxt.setText("Active Warranty");
             redTxt.setText("Inactive Warranty");
             isFetching = false;
-            //updateElements();
-            /*Toast toast = Toast.makeText( getApplicationContext(), fetcher.getInputString(), Toast.LENGTH_SHORT );
-            toast.show();*/
-
         }
     }
 

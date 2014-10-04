@@ -42,11 +42,6 @@ public class WarrantyInfoFetcher {
     private String unitModel;
     private String errorMessage;
 
-    /*private ArrayList<String> endDates;
-    private ArrayList<String> startDates;
-    private ArrayList<String> entitlementTypes;
-    private ArrayList<String> serviceLevelDescription;*/
-
     private ArrayList<WarrantyInfoContainer> warrantyInfoContainers;
 
     public void getDellJSON(String scanContent) {
@@ -67,7 +62,6 @@ public class WarrantyInfoFetcher {
 
 
         } catch (Exception e) {
-            //Log.d("Input Stream", e.getLocalizedMessage());
             this.errorMessage = e.getLocalizedMessage();
         }
     }
@@ -93,15 +87,6 @@ public class WarrantyInfoFetcher {
                         this.warrantiesList.getJSONObject(i).getString("EntitlementType"),
                         this.warrantiesList.getJSONObject(i).getString("ServiceLevelDescription")
                 ));
-                /*
-                this.endDates.add(this.warrantiesList.getJSONObject(i)
-                        .getString("EndDate"));
-                this.startDates.add(this.warrantiesList.getJSONObject(i)
-                        .getString("StartDate"));
-                this.entitlementTypes.add(this.warrantiesList.getJSONObject(i)
-                        .getString("EntitlementType"));
-                this.serviceLevelDescription.add(this.warrantiesList.getJSONObject(i)
-                        .getString("ServiceLevelDescription"));*/
             }
 
 
@@ -111,7 +96,8 @@ public class WarrantyInfoFetcher {
     }
 
     public void convertInputStreamToString() throws IOException {
-        BufferedReader bufferedReader1 = new BufferedReader( new InputStreamReader(this.inputStream) );
+        BufferedReader bufferedReader1 = new BufferedReader(
+                new InputStreamReader(this.inputStream) );
         this.tempLine = "";
         while ( (this.tempLine = bufferedReader1.readLine()) != null) {
             this.tempTotal += this.tempLine;
@@ -137,6 +123,7 @@ public class WarrantyInfoFetcher {
     public String getErrorMessage() {
         return this.errorMessage;
     }
+
     public String getInputString() {
         Log.d("Response", this.tempTotal);
         return this.inputString;
