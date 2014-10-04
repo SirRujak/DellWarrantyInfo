@@ -62,7 +62,7 @@ public class WarrantyInfoFetcher {
 
 
         } catch (Exception e) {
-            this.errorMessage = e.getLocalizedMessage();
+            this.tempTotal = "Could not connect";
         }
     }
 

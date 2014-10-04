@@ -125,11 +125,14 @@ public class MyActivity extends Activity implements OnClickListener {
 
         @Override
         protected void onPostExecute(ArrayList<WarrantyInfoContainer> s) {
-            DellWarrantyAdapter dellWarrantyAdapter
-                    = new DellWarrantyAdapter(context, s);
-            this.listView.setAdapter(dellWarrantyAdapter);
-            greenTxt.setText("Active Warranty");
-            redTxt.setText("Inactive Warranty");
+            try {
+                DellWarrantyAdapter dellWarrantyAdapter
+                        = new DellWarrantyAdapter(context, s);
+                this.listView.setAdapter(dellWarrantyAdapter);
+
+            } catch (Exception e) {
+                contentTxt.setText("Data was bad, pleas scan again.");
+            }
             isFetching = false;
         }
     }
