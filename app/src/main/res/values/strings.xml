@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Dell™ Warranty Info</string>
+    <string name="app_name">Dell™ Warranty Finder</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="scan">Scan Barcode</string>
+
+    <string name="no_scan_data">No scan data received!</string>
+    <string name="retrieving_warranty_data">Attempting to retrieve warranty data!</string>
+    <string name="unrecognized_product">Not a recognized Dell™ product.</string>
+    <string name="bad_data">Data was bad, please scan again.</string>
+
+    <string name="coin_name_ending"> Address</string>
+    <string name="coin_1_name">BitCoin</string>
+    <string name="coin_1_value">1MJN2mccLB47ht2FQtS5fgRhbiSF7edUjh</string>
+    <string name="coin_1_popup">Copied BitCoin Address!</string>
+    <string name="coin_2_name">DogeCoin</string>
+    <string name="coin_2_value">DHMCCzCzbU5iAMU61nJYp4tyyDsU8ES8YJ</string>
+    <string name="coin_2_popup">Copied DogeCoin Address!</string>
+
+    <string name="base_url">https://api.dell.com/support/v2/assetinfo/warranty/tags.json?svctags=</string>
+    <string name="url_ending"></string>
+    <string name="api_key"></string>
+
+    <string name="error_announcement"></string>
+    <string name="connection_error"></string>
 
 </resources>

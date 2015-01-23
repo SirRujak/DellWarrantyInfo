@@ -1,6 +1,5 @@
-package ironhammerindustries.dellwarrantyinfo;
+package ironhammerindustries.dellwarrantyfinder;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +25,20 @@ public class WarrantyInfoContainer {
         this.checkIfWarrantyIsActive();
         String[] tempDate = endDate1.split("T");
         this.endDate = tempDate[0] + " " + tempDate[1];
+    }
+
+    public WarrantyInfoContainer() {
+        this.endDate = "";
+        this.startDate = "";
+        this.entitlementType = "No Warranties Listed";
+        this.serviceLevelDescription = "";
+    }
+
+    public WarrantyInfoContainer(String entType) {
+        this.endDate = "";
+        this.startDate = "";
+        this.entitlementType = entType;
+        this.serviceLevelDescription = "";
     }
 
     private void checkIfWarrantyIsActive() {

@@ -8,75 +8,321 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MyActivity">
 
-    <Button
-        android:id = "@+id/scan_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text = "@string/scan" />
-    <TextView
-        android:id = "@+id/scan_format"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below = "@id/scan_button"
-        android:textIsSelectable="true" />
+    <RelativeLayout
+        android:id="@+id/main_rel_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+        <RelativeLayout
+            android:id="@+id/button_holder"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
+            <Button
+                android:id = "@+id/scan_button"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:text = "@string/scan" />
+            <Button
+                android:id="@+id/open_manual_entry"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/scan_button"
+                android:text="Manual Entry"/>
+            </RelativeLayout>
+        <TextView
+            android:id = "@+id/scan_format"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below = "@id/button_holder"
+            android:textIsSelectable="true" />
 
-    <TextView
-        android:id = "@+id/scan_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/scan_format"
-        android:textIsSelectable="true"/>
+        <TextView
+            android:id = "@+id/scan_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/scan_format"
+            android:textIsSelectable="true"/>
 
-    <ListView
-        android:id = "@+id/list_view"
-        android:divider="@null"
-        android:layout_below="@id/scan_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></ListView>
+        <ListView
+            android:id = "@+id/list_view"
+            android:divider="@null"
+            android:layout_below="@id/scan_content"
+            android:layout_above="@+id/key_green_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></ListView>
 
-    <ImageView
-        android:id = "@+id/key_green_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/key_red_image"
-        android:padding="3dp"
-        android:src="@drawable/green_check_mark4848"/>
+        <ImageView
+            android:id = "@+id/key_green_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/key_red_image"
+            android:padding="3dp"
+            android:src="@drawable/green_check_mark4848"/>
 
-    <TextView
-        android:id = "@+id/key_green_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/key_green_image"
-        android:layout_alignBottom="@id/key_green_image"
-        android:text="Active Warranty"/>
+        <TextView
+            android:id = "@+id/key_green_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/key_green_image"
+            android:layout_alignBottom="@id/key_green_image"
+            android:text="Active Warranty"/>
 
-    <ImageView
-        android:id = "@+id/key_red_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/donate_button"
-        android:padding="3dp"
-        android:src="@drawable/red_x4848"/>
+        <ImageView
+            android:id = "@+id/key_red_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/donate_lettering"
+            android:padding="3dp"
+            android:src="@drawable/red_x4848"/>
 
-    <TextView
-        android:id = "@+id/key_red_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Inactive Warranty"
-        android:layout_alignBottom="@+id/key_red_image"
-        android:layout_alignLeft="@+id/key_green_text"
-        android:layout_alignStart="@+id/key_green_text"/>
+        <TextView
+            android:id = "@+id/key_red_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inactive Warranty"
+            android:layout_alignBottom="@+id/key_red_image"
+            android:layout_alignLeft="@+id/key_green_text"
+            android:layout_alignStart="@+id/key_green_text"/>
 
-    <Button
-        android:id = "@+id/donate_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:text="Donate!"/>
+        <!--
+        <Button
+            android:id = "@+id/donate_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible"
+            android:text="Donate!"/>
+            -->
+
+        <TextView
+            android:id = "@+id/donate_lettering"
+            android:gravity="center"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bit_container"
+            android:text="--------- DONATION ADDRESSES ---------"/>
+
+        <LinearLayout
+            android:id = "@+id/bit_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_above="@+id/doge_container">
+
+        <TextView
+            android:id = "@+id/donate_bit"
+            android:layout_above="@+id/donate_doge"
+            android:layout_width="75dp"
+            android:layout_height="50dp"
+            android:text="BitCoin"/>
+
+        <Button
+            android:id = "@+id/show_bit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"
+            android:text="SHOW"/>
+
+        <Button
+            android:id = "@+id/copy_bit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"
+            android:text="COPY"/></LinearLayout>
+
+        <LinearLayout
+            android:id = "@+id/doge_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal">
+        <TextView
+            android:id = "@+id/donate_doge"
+            android:layout_width="75dp"
+            android:layout_height="30dp"
+            android:text="DogeCoin"/>
+
+        <Button
+            android:id = "@+id/show_doge_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:text="SHOW"
+
+            android:layout_above="@+id/copy_doge_button" />
+
+        <Button
+            android:id = "@+id/copy_doge_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible"
+            android:text="COPY"/></LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/address_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="invisible">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/coin_title">
+            <TextView
+                android:id="@+id/coin_title_text"
+                android:padding="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BitCoin Address"/>
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/show_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/coin_title">
+
+
+            <TextView
+                android:id = "@+id/coin_part_1"
+                android:layout_width="60dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="1MJN"/>
+            <TextView
+                android:id = "@+id/coin_part_2"
+                android:layout_width="60dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_toRightOf="@+id/coin_part_1"
+                android:text="2mccL"/>
+            <TextView
+                android:id = "@+id/coin_part_3"
+                android:layout_width="60dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_toRightOf="@+id/coin_part_2"
+                android:text="B47ht"/>
+            <TextView
+                android:id = "@+id/coin_part_4"
+                android:layout_width="60dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_below="@+id/coin_part_1"
+                android:text="2FQTS"/>
+            <TextView
+                android:id = "@+id/coin_part_5"
+                android:layout_width="60dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_toRightOf="@+id/coin_part_4"
+                android:layout_below="@+id/coin_part_2"
+                android:text="5fgRh"/>
+            <TextView
+                android:id = "@+id/coin_part_6"
+                android:layout_width="60dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_toRightOf="@+id/coin_part_5"
+                android:layout_below="@+id/coin_part_3"
+                android:text="biSF7"/>
+            <TextView
+                android:id = "@+id/coin_part_7"
+                android:layout_width="60dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_toRightOf="@+id/coin_part_1"
+                android:layout_below="@+id/coin_part_5"
+                android:text="edUjh"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_below="@+id/show_container"
+            android:layout_width="fill_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout"></RelativeLayout>
+        <Button
+            android:id="@+id/return_to_app"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Return to app."
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/manual_entry_layout"
+        android:gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="invisible">
+        <TextView
+            android:id="@+id/manual_entry_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Enter Service Code"/>
+
+        <RelativeLayout
+            android:id="@+id/manual_entry_frame"
+            android:layout_below="@+id/manual_entry_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/manual_entry_box"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/manual_entry_clear"
+            android:inputType="textCapCharacters"/>
+            <Button
+                android:id="@+id/manual_entry_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:text="X"/>
+
+            </RelativeLayout>
+        <LinearLayout
+            android:layout_below="@+id/manual_entry_frame"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+            <Button
+                android:id="@+id/manual_entry_button"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Submit"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+
+
+
 
 </RelativeLayout>

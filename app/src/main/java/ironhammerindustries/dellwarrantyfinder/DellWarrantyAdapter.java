@@ -1,4 +1,4 @@
-package ironhammerindustries.dellwarrantyinfo;
+package ironhammerindustries.dellwarrantyfinder;
 
 import android.content.Context;
 import android.view.LayoutInflater;

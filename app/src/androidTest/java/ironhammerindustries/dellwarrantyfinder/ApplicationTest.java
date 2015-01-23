@@ -1,4 +1,4 @@
-package ironhammerindustries.dellwarrantyinfo;
+package ironhammerindustries.dellwarrantyfinder;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ironhammerindustries.dellwarrantyinfo" >
+    package="ironhammerindustries.dellwarrantyfinder"
+    android:versionCode="1"
+    android:versionName="1.0.0"
+    android:installLocation="auto">
+
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-sdk android:minSdkVersion="7"
+        android:targetSdkVersion="18"></uses-sdk>
 
     <application
         android:allowBackup="true"
@@ -11,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MyActivity"
+            android:name="ironhammerindustries.dellwarrantyfinder.MyActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
