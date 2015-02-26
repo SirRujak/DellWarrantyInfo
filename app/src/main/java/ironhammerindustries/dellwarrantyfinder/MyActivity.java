@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -273,6 +274,8 @@ public class MyActivity extends Activity implements OnClickListener {
     public class HttpAsyncTask extends AsyncTask<String, Void, ArrayList<WarrantyInfoContainer>>{
         private Context context;
         private ListView listView;
+        private TextView testText;
+
         public HttpAsyncTask(Context context, ListView listView) {
             this.context = context;
             this.listView = listView;
@@ -287,9 +290,16 @@ public class MyActivity extends Activity implements OnClickListener {
         @Override
         protected void onPostExecute(ArrayList<WarrantyInfoContainer> s) {
             try {
+                // Save to database here.
                 DellWarrantyAdapter dellWarrantyAdapter
                         = new DellWarrantyAdapter(context, s);
                 this.listView.setAdapter(dellWarrantyAdapter);
+                Toast toast1 = Toast.makeText(
+                        getApplicationContext(),
+                        "Data updated!",
+                        Toast.LENGTH_SHORT);
+                toast1.setGravity(Gravity.CENTER, 0, 0);
+                toast1.show();
 
             } catch (Exception e) {
                 contentTxt.setText("Data was bad, please scan again.");

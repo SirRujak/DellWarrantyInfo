@@ -35,6 +35,7 @@ public class WarrantyInfoFetcher {
     private String tempTotal;
 
     private JSONObject jsonData;
+    private JSONArray subData;
     private JSONArray warrantiesList;
     private JSONArray multipleDevicesList;
     private int numberOfWarranties;
@@ -85,145 +86,79 @@ public class WarrantyInfoFetcher {
         try {
             this.jsonData = null;
             this.jsonData = new JSONObject(this.inputString);
-            int faultData;
-            faultData = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
-                    .getJSONObject("GetAssetWarrantyResult").getJSONObject("Faults")
-                    .getJSONObject("FaultException").getInt("Code");
-            if (faultData != 4001){
-                throw new Exception();
-            }
-
-            WarrantyInfoContainer tempContainer2 = new WarrantyInfoContainer(
-                    "Invalid Service Code");
-            this.warrantyInfoContainers.add(tempContainer2);
-
-        } catch (Exception e1) {
-            try {
-                this.unitModel = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
+            this.subData = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
                         .getJSONObject("GetAssetWarrantyResult").getJSONObject("Response")
-                        .getJSONObject("DellAsset").getString("MachineDescription");
-                this.warrantiesList = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
-                        .getJSONObject("GetAssetWarrantyResult").getJSONObject("Response")
-                        .getJSONObject("DellAsset").getJSONObject("Warranties")
-                        .getJSONArray("Warranty");
-                this.numberOfWarranties = this.warrantiesList.length();
-
-
-                for (int i = 0; i < this.numberOfWarranties; i++) {
-                    this.warrantyInfoContainers.add(new WarrantyInfoContainer(
-                            this.warrantiesList.getJSONObject(i)
-                                    .getString("EndDate"),
-                            this.warrantiesList.getJSONObject(i)
-                                    .getString("StartDate"),
-                            this.warrantiesList.getJSONObject(i)
-                                    .getString("EntitlementType"),
-                            this.warrantiesList.getJSONObject(i)
-                                    .getString("ServiceLevelDescription")
-                    ));
-                }
-
-                if (this.warrantyInfoContainers.isEmpty()) {
-                    WarrantyInfoContainer tempContainer = new WarrantyInfoContainer();
-                    this.warrantyInfoContainers.add(tempContainer);
-                }
-
-            } catch (Exception e2) {
+                        .getJSONArray("DellAsset");
+            for (int i = 0;i < this.subData.length();i++){
+                String serviceTag = this.subData.getJSONObject(i).getString("ServiceTag");
+                String machineDescription = this.subData.getJSONObject(i)
+                         .getString("MachineDescription");
+                String customerNumber = this.subData.getJSONObject(i).getString("CustomerNumber");
+                String itemClassCode = this.subData.getJSONObject(i).getString("ItemClassCode");
                 try {
-                    multipleDevicesList = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
-                            .getJSONObject("GetWarrantyResult").getJSONObject("Response")
-                            .getJSONArray("DellAsset");
-                    for (int j = 0; j < multipleDevicesList.length(); j++) {
-                        if (multipleDevicesList.getJSONObject(0).getString("").toUpperCase()
-                                == this.serviceTag.toUpperCase()) {
-
-                            this.warrantyInfoContainers.add(new WarrantyInfoContainer(
-                                    this.multipleDevicesList.getJSONObject(j)
-                                            .getString("EndDate"),
-                                    this.multipleDevicesList.getJSONObject(j)
-                                            .getString("StartDate"),
-                                    this.multipleDevicesList.getJSONObject(j)
-                                            .getString("EntitlementType"),
-                                    this.multipleDevicesList.getJSONObject(j)
-                                            .getString("ServiceLevelDescription"))
-                            );
-                        }
-                    }
-
-                } catch (Exception e3) {
-                    try {
-                        multipleDevicesList = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
-                                .getJSONObject("GetWarrantyResult").getJSONObject("Response")
-                                .getJSONArray("DellAsset");
-                        for (int j = 0; j < multipleDevicesList.length(); j++) {
-                            if (multipleDevicesList.getJSONObject(0).getString("").toUpperCase()
-                                    == this.serviceTag.toUpperCase()) {
-                                for (int k = 0; k < this.multipleDevicesList.getJSONObject(j)
-                                        .getJSONObject("Warranties").getJSONArray("Warranty")
-                                        .length(); k++)
-                                this.warrantyInfoContainers.add(new WarrantyInfoContainer(
-                                                this.multipleDevicesList.getJSONObject(j)
-                                                        .getJSONObject("Warranties")
-                                                        .getJSONArray("Warranty")
-                                                        .getJSONObject(k)
-                                                        .getString("EndDate"),
-                                                this.multipleDevicesList.getJSONObject(j)
-                                                        .getJSONObject("Warranties")
-                                                        .getJSONArray("Warranty")
-                                                        .getJSONObject(k)
-                                                        .getString("StartDate"),
-                                                this.multipleDevicesList.getJSONObject(j)
-                                                        .getJSONObject("Warranties")
-                                                        .getJSONArray("Warranty")
-                                                        .getJSONObject(k)
-                                                        .getString("EntitlementType"),
-                                                this.multipleDevicesList.getJSONObject(j)
-                                                        .getJSONObject("Warranties")
-                                                        .getJSONArray("Warranty")
-                                                        .getJSONObject(k)
-                                                        .getString("ServiceLevelDescription"))
-                                );
-                            }
-                        }
-                    } catch (Exception e4) {
-                        try {
-                            this.unitModel = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
-                                    .getJSONObject("GetAssetWarrantyResult").getJSONObject("Response")
-                                    .getJSONObject("DellAsset").getString("MachineDescription");
-                            this.singularWarranty = this.jsonData.getJSONObject("GetAssetWarrantyResponse")
-                                    .getJSONObject("GetAssetWarrantyResult").getJSONObject("Response")
-                                    .getJSONObject("DellAsset").getJSONObject("Warranties")
-                                    .getJSONObject("Warranty");
-                            this.numberOfWarranties = this.warrantiesList.length();
-
-
-                            this.warrantyInfoContainers.add(new WarrantyInfoContainer(
-                                    this.singularWarranty
-                                            .getString("EndDate"),
-                                    this.singularWarranty
-                                            .getString("StartDate"),
-                                    this.singularWarranty
-                                            .getString("EntitlementType"),
-                                    this.singularWarranty
-                                            .getString("ServiceLevelDescription")
-                            ));
-
-
-
-                            if (this.warrantyInfoContainers.isEmpty()) {
-                                WarrantyInfoContainer tempContainer = new WarrantyInfoContainer();
-                                this.warrantyInfoContainers.add(tempContainer);
-                            }
-                        } catch (Exception e5) {
-                            WarrantyInfoContainer tempContainer2 = new WarrantyInfoContainer();
+                    String parentServiceTag = this.subData.getJSONObject(i)
+                            .getString("ParentServiceTag");
+                } catch (JSONException e1) {
+                    String parentServiceTag = "None";
+                }
+                try {
+                    JSONArray jsonWarranties = this.subData.getJSONObject(i).getJSONObject("Warranties")
+                            .getJSONArray("Warranty");
+                    for (int j = 0;j  < jsonWarranties.length();j++) {
+                        String endDate = jsonWarranties.getJSONObject(j).getString("EndDate");
+                        String entitlementType = jsonWarranties.getJSONObject(j)
+                                .getString("EntitlementType");
+                        String serviceLevelDescription = jsonWarranties.getJSONObject(j)
+                                .getString("ServiceLevelDescription");
+                        String serviceProvider = jsonWarranties.getJSONObject(j)
+                                .getString("ServiceProvider");
+                        String startDate = jsonWarranties.getJSONObject(j).getString("StartDate");
+                        WarrantyInfoContainer tempContainer2 = new WarrantyInfoContainer(endDate,
+                                startDate,
+                                entitlementType,
+                                serviceLevelDescription);
+                        if (serviceTag.equals(this.serviceTag)) {
                             this.warrantyInfoContainers.add(tempContainer2);
-                            e1.printStackTrace();
                         }
                     }
-
+                } catch (JSONException e3) {
+                    JSONObject jsonWarranties = this.subData.getJSONObject(i)
+                            .getJSONObject("Warranties").getJSONObject("Warranty");
+                    String endDate = jsonWarranties.getString("EndDate");
+                    String entitlementType = jsonWarranties.getString("EntitlementType");
+                    String serviceLevelDescription = jsonWarranties
+                            .getString("ServiceLevelDescription");
+                    String serviceProvider = jsonWarranties
+                            .getString("ServiceProvider");
+                    String startDate = jsonWarranties.getString("StartDate");
+                    if (serviceTag.equals(this.serviceTag)) {
+                        this.warrantyInfoContainers.add(
+                                new WarrantyInfoContainer(endDate,
+                                        startDate,
+                                        entitlementType,
+                                        serviceLevelDescription));
+                    }
                 }
 
             }
-
+            if (this.warrantyInfoContainers.isEmpty()) {
+                WarrantyInfoContainer tempContainer2 = new WarrantyInfoContainer();
+                this.warrantyInfoContainers.add(tempContainer2);
+            }
+        } catch (JSONException e) {
+            String tempString = "<Fault xmlns=\"http://api.dell.com/faults\">\t" +
+                    "<Code>eAPI-40102</Code>\t<Url>http://developer.dell.com/faults#eAPI" +
+                    "-40102</Url>\t<Message>Failed to Authenticate User</Message>\t" +
+                    "<Reason>User Identification failed in Key Management Service</Reason>" +
+                    "\t<Source>KMS</Source>\t<StackTrace></StackTrace></Fault>";
+            if (this.inputString.equals(tempString)) {
+                WarrantyInfoContainer tempContainer2 =
+                        new WarrantyInfoContainer("Error Authenticating: Please try again.");
+                this.warrantyInfoContainers.add(tempContainer2);
+            } else {
+                WarrantyInfoContainer tempContainer2 = new WarrantyInfoContainer();
+                this.warrantyInfoContainers.add(tempContainer2);
+            }
         }
     }
 
